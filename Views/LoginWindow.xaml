@@ -1,0 +1,190 @@
+<Window x:Class="SISTEMA_DE_VENDAS_GENERICO.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sistema de Vendas - Login" 
+        Height="600" 
+        Width="450"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F8F9FA">
+    
+    <Grid>
+        <Border Background="White" 
+                CornerRadius="10" 
+                Margin="20"
+                BorderBrush="#E0E0E0"
+                BorderThickness="1">
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Cabeçalho -->
+                <Border Grid.Row="0" 
+                        Background="#3498DB" 
+                        CornerRadius="10,10,0,0">
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="🛒" 
+                                   FontSize="36" 
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="Sistema de Vendas" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Faça login para continuar" 
+                                   FontSize="12" 
+                                   Foreground="#E8F4FD"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Formulário de Login -->
+                <ScrollViewer Grid.Row="1" 
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="30,20,30,20">
+                        
+                        <!-- Campo Usuário -->
+                        <TextBlock Text="👤 Usuário" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#2C3E50"
+                                   FontSize="13"
+                                   Margin="0,0,0,8"/>
+                        <TextBox x:Name="txtUsuario" 
+                                 Height="45" 
+                                 FontSize="14"
+                                 Padding="15,10"
+                                 BorderBrush="#E0E0E0"
+                                 BorderThickness="1"
+                                 Background="White"
+                                 Foreground="#333333"
+                                 Margin="0,0,0,20"
+                                 IsEnabled="True"
+                                 AcceptsReturn="False"
+                                 TextWrapping="NoWrap"
+                                 VerticalContentAlignment="Center"/>
+                        
+                        <!-- Campo Senha -->
+                        <TextBlock Text="🔒 Senha" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#2C3E50"
+                                   FontSize="13"
+                                   Margin="0,0,0,8"/>
+                        
+                        <!-- Container para senha com botão mostrar/ocultar -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <PasswordBox x:Name="txtSenha" 
+                                         Grid.Column="0"
+                                         Height="45" 
+                                         FontSize="14"
+                                         Padding="15,10"
+                                         BorderBrush="#E0E0E0"
+                                         BorderThickness="1"
+                                         Background="White"
+                                         Foreground="#333333"
+                                         IsEnabled="True"
+                                         VerticalContentAlignment="Center"/>
+                            
+                            <Button x:Name="btnMostrarSenha" 
+                                    Grid.Column="1"
+                                    Content="👁️" 
+                                    Width="45"
+                                    Height="45"
+                                    Background="Transparent"
+                                    BorderBrush="#E0E0E0"
+                                    BorderThickness="0,1,1,1"
+                                    FontSize="16"
+                                    Click="btnMostrarSenha_Click"
+                                    Cursor="Hand"
+                                    ToolTip="Mostrar/Ocultar senha"/>
+                        </Grid>
+                        
+                        <!-- Campo Senha Visível (inicialmente oculto) -->
+                        <TextBox x:Name="txtSenhaVisivel" 
+                                 Height="45" 
+                                 FontSize="14"
+                                 Padding="15,10"
+                                 BorderBrush="#E0E0E0"
+                                 BorderThickness="1"
+                                 Background="White"
+                                 Foreground="#333333"
+                                 Margin="0,0,0,20"
+                                 IsEnabled="True"
+                                 VerticalContentAlignment="Center"
+                                 Visibility="Collapsed"/>
+                        
+                        <!-- Checkbox Lembrar -->
+                        <CheckBox x:Name="chkLembrar" 
+                                  Content="Lembrar usuário" 
+                                  Margin="0,0,0,25"
+                                  Foreground="#2C3E50"
+                                  FontSize="13"/>
+                        
+                        <!-- Botão de Login -->
+                        <Button x:Name="btnLogin" 
+                                Content="ENTRAR NO SISTEMA" 
+                                Height="45"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Background="#27AE60"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Margin="0,0,0,15"
+                                Click="btnLogin_Click"
+                                IsDefault="True"/>
+                        
+                        <!-- Botão Cancelar -->
+                        <Button x:Name="btnCancelar" 
+                                Content="CANCELAR" 
+                                Height="45"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Background="#E74C3C"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="btnCancelar_Click"
+                                IsCancel="True"/>
+                        
+                        <!-- Informações de teste -->
+                        <Border Background="#F1F8E9" 
+                                BorderBrush="#C8E6C9" 
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Margin="0,20,0,0"
+                                Padding="15">
+                            <StackPanel>
+                                <TextBlock Text="💡 Usuários de Teste:" 
+                                           FontWeight="Bold" 
+                                           Foreground="#2E7D32"
+                                           FontSize="12"
+                                           Margin="0,0,0,5"/>
+                                <TextBlock Text="Admin: admin / admin123" 
+                                           Foreground="#388E3C"
+                                           FontSize="11"/>
+                                <TextBlock Text="Vendedor: vendedor / venda123" 
+                                           Foreground="#388E3C"
+                                           FontSize="11"/>
+                                <TextBlock Text="Gerente: gerente / gerente123" 
+                                           Foreground="#388E3C"
+                                           FontSize="11"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</Window> 

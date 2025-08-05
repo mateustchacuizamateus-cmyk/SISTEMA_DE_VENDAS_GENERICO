@@ -1,0 +1,279 @@
+<Page x:Class="SISTEMA_DE_VENDAS_GENERICO.Views.EstoquePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Estoque"
+      Background="Transparent">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Lista de Produtos com Estoque -->
+        <Border Grid.Column="0" 
+                Background="White" 
+                CornerRadius="5" 
+                Margin="10,10,5,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Cabeçalho -->
+                <Border Grid.Row="0" 
+                        Background="#9B59B6" 
+                        CornerRadius="5,5,0,0" 
+                        Padding="20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" 
+                                   Text="📈 Controle de Estoque" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="White"/>
+                        
+                        <StackPanel Grid.Column="1" 
+                                    Orientation="Horizontal">
+                            <Button x:Name="btnEntrada" 
+                                    Content="⬆️ Entrada" 
+                                    Height="35" 
+                                    Width="100"
+                                    Background="#27AE60"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Margin="0,0,10,0"
+                                    Click="btnEntrada_Click"/>
+                            
+                            <Button x:Name="btnSaida" 
+                                    Content="⬇️ Saída" 
+                                    Height="35" 
+                                    Width="100"
+                                    Background="#E74C3C"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Margin="0,0,10,0"
+                                    Click="btnSaida_Click"/>
+                            
+                            <Button x:Name="btnAtualizar" 
+                                    Content="🔄 Atualizar" 
+                                    Height="35" 
+                                    Width="100"
+                                    Background="#3498DB"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="btnAtualizar_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                
+                <!-- DataGrid -->
+                <DataGrid Grid.Row="1" 
+                          x:Name="dgEstoque" 
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Margin="10"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          SelectionMode="Single"
+                          SelectionChanged="dgEstoque_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Código" 
+                                            Binding="{Binding CodigoBarra}" 
+                                            Width="120"/>
+                        <DataGridTextColumn Header="Produto" 
+                                            Binding="{Binding Nome}" 
+                                            Width="*"/>
+                        <DataGridTextColumn Header="Categoria" 
+                                            Binding="{Binding NomeCategoria}" 
+                                            Width="120"/>
+                        <DataGridTextColumn Header="Estoque Atual" 
+                                            Binding="{Binding EstoqueAtual}" 
+                                            Width="100">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EstoqueBaixo}" Value="True">
+                                            <Setter Property="Background" Value="#FFE5E5"/>
+                                            <Setter Property="Foreground" Value="#E74C3C"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Unidade" 
+                                            Binding="{Binding Unidade}" 
+                                            Width="80"/>
+                        <DataGridTextColumn Header="Preço Venda (AOA)" 
+                                            Binding="{Binding PrecoVenda, StringFormat='{}{0:N2} AOA'}" 
+                                            Width="140"/>
+                        <DataGridCheckBoxColumn Header="Ativo" 
+                                               Binding="{Binding Ativo}" 
+                                               Width="60"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+        
+        <!-- Painel de Movimentação -->
+        <Border Grid.Column="1" 
+                Background="White" 
+                CornerRadius="5" 
+                Margin="5,10,10,10"
+                Padding="20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="📝 Movimentação de Estoque" 
+                               FontSize="18" 
+                               FontWeight="Bold" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,20"/>
+                    
+                    <!-- Produto Selecionado -->
+                    <TextBlock Text="Produto Selecionado:" 
+                               FontSize="14" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtProdutoSelecionado" 
+                               Text="Nenhum produto selecionado" 
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Foreground="#3498DB"
+                               Margin="0,0,0,15"/>
+                    
+                    <!-- Estoque Atual -->
+                    <TextBlock Text="Estoque Atual:" 
+                               FontSize="14" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtEstoqueAtual" 
+                               Text="0" 
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#27AE60"
+                               Margin="0,0,0,15"/>
+                    
+                    <!-- Tipo de Movimentação -->
+                    <TextBlock Text="Tipo de Movimentação:" 
+                               FontSize="14" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,5"/>
+                    <ComboBox x:Name="cmbTipoMovimentacao" 
+                              Height="35" 
+                              FontSize="14"
+                              Margin="0,0,0,15"
+                              SelectionChanged="cmbTipoMovimentacao_SelectionChanged">
+                        <ComboBoxItem Content="Entrada"/>
+                        <ComboBoxItem Content="Saida"/>
+                    </ComboBox>
+                    
+                    <!-- Quantidade -->
+                    <TextBlock Text="Quantidade:" 
+                               FontSize="14" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtQuantidade" 
+                             Height="35" 
+                             FontSize="14"
+                             Text="1"
+                             Margin="0,0,0,15"/>
+                    
+                    <!-- Motivo -->
+                    <TextBlock Text="Motivo:" 
+                               FontSize="14" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,5"/>
+                    <ComboBox x:Name="cmbMotivo" 
+                              Height="35" 
+                              FontSize="14"
+                              Margin="0,0,0,15">
+                        <ComboBoxItem Content="Compra"/>
+                        <ComboBoxItem Content="Devolução"/>
+                        <ComboBoxItem Content="Ajuste de inventário"/>
+                        <ComboBoxItem Content="Perda"/>
+                        <ComboBoxItem Content="Vencimento"/>
+                        <ComboBoxItem Content="Transferência"/>
+                        <ComboBoxItem Content="Outro"/>
+                    </ComboBox>
+                    
+                    <!-- Observações -->
+                    <TextBlock Text="Observações:" 
+                               FontSize="14" 
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtObservacoes" 
+                             Height="60" 
+                             FontSize="14"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Margin="0,0,0,20"/>
+                    
+                    <!-- Botões -->
+                    <StackPanel Orientation="Horizontal" 
+                               HorizontalAlignment="Center">
+                        <Button x:Name="btnConfirmarMovimentacao" 
+                                Content="✅ Confirmar" 
+                                Height="40" 
+                                Width="120"
+                                Background="#27AE60"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Margin="0,0,10,0"
+                                Click="btnConfirmarMovimentacao_Click"
+                                IsEnabled="False"/>
+                        
+                        <Button x:Name="btnCancelar" 
+                                Content="❌ Cancelar" 
+                                Height="40" 
+                                Width="120"
+                                Background="#E74C3C"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Click="btnCancelar_Click"/>
+                    </StackPanel>
+                    
+                    <!-- Histórico de Movimentações -->
+                    <TextBlock Text="📋 Últimas Movimentações" 
+                               FontSize="16" 
+                               FontWeight="Bold" 
+                               Foreground="#2C3E50"
+                               Margin="0,30,0,10"/>
+                    
+                    <DataGrid x:Name="dgHistorico" 
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              Height="200"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data" 
+                                                Binding="{Binding DataMovimentacao, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" 
+                                                Width="120"/>
+                            <DataGridTextColumn Header="Tipo" 
+                                                Binding="{Binding Tipo}" 
+                                                Width="80"/>
+                            <DataGridTextColumn Header="Qtd" 
+                                                Binding="{Binding Quantidade}" 
+                                                Width="60"/>
+                            <DataGridTextColumn Header="Motivo" 
+                                                Binding="{Binding Motivo}" 
+                                                Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>
